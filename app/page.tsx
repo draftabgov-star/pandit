@@ -1,8 +1,7 @@
-export default function HomePage() {
+export default function DashboardPage() {
   return (
-    <main style={{ padding: "40px", textAlign: "center" }}>
-      <h1>Pandit AI Astrology</h1>
-      <p>Your SaaS is now live.</p>
+    <main style={{ padding: 40 }}>
+      <h1>Dashboard Working ✅</h1>
     </main>
   );
 }
