@@ -4,6 +4,16 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const isPublic =
+    pathname === "/" ||
+    pathname === "/pricing" ||
+    pathname === "/login" ||
+    pathname === "/register";
+
+  if (isPublic) {
+    return NextResponse.next();
+  }
+
   const isProtected =
     pathname.startsWith("/dashboard") ||
     pathname === "/api/licenses/generate" ||
