@@ -38,17 +38,4 @@ export default function Home() {
       </section>
     </main>
   )
-}      {/* SEO Text */}
-      <section className="max-w-4xl mx-auto px-6 py-16 text-center">
-        <h2 className="text-3xl font-bold mb-6">Online Pandit for Kundli & Horoscope</h2>
-        <p className="text-gray-400 leading-relaxed">
-          Pandit AI brings authentic Vedic astrology to your fingertips. Whether you need a 
-          <strong> kundli reading</strong>, <strong>daily rashifal</strong>, or 
-          <strong> birth chart analysis</strong>, our AI pandit delivers instant, 
-          personalized predictions. Consult the digital pandit for marriage compatibility, 
-          career guidance, and spiritual insights based on ancient jyotish principles.
-        </p>
-      </section>
-    </main>
-  )
 }
