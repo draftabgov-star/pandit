@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  licenses  License[]
+  payments  PendingPayment[]
+}
+
+model License {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  userId      String
+  features    String
+  domain      String?
+  plan        String   @default("free")
+  expiresAt   DateTime
+  activatedAt DateTime?
+  widgetTooltipText String?
+  widgetPosition    String   @default("bottom-right")
+  widgetSize        String   @default("medium")
+  widgetZIndex      Int?
+  widgetCustomCss   String?
+  forcedMood        String?
+  forcedMoodUntil   DateTime?
+  /// Set when license is created from a paid NowPayments order (IPN idempotency).
+  paidOrderId       String?  @unique
+  /// Optional hex overrides for preset orb gradient (#RRGGBB).
+  themeAccentHex    String?
+  themeDeepHex      String?
+  /// Public URL path or absolute URL for custom orb background (PNG/SVG)
+  themeImageUrl String?
+  /// Preset id: default | ocean | sunset | neon | forest
+  themePreset   String   @default("default")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moodEvents  MoodEvent[]
+}
+
+model PendingPayment {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  userId    String
+  plan      String
+  amountUsd Int
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// Anonymous widget mood telemetry (GDPR: mood + domain + license link only).
+model MoodEvent {
+  id         String   @id @default(cuid())
+  licenseId  String
+  mood       String
+  domain     String?
+  timestamp  DateTime
+  license    License  @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+
+  @@index([licenseId, timestamp])
+}

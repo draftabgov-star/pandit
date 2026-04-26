@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Secrets & local env (never commit real values)
+.env
+.env.*
+!.env.example
+!dashboard/.env.example
+
+# Next.js / build output & cache
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Vercel
+.vercel/
+
+# OS / misc
+.DS_Store
+*.pem
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+
+# Test coverage
+coverage/
+
+# Local Prisma SQLite (not source code)
+**/prisma/*.db
+**/prisma/*.db-journal
+
+# Widget build artifacts (source stays in widget-lib/src)
+dashboard/widget-lib/dist/
+dashboard/public/widget/livingface-widget.js
+
+# User uploads (dashboard)
+dashboard/public/uploads/**
