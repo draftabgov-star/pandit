@@ -1,31 +1,16 @@
 'use client'
-import { useEffect } from 'react'
+
+import { useState } from 'react'
 
 export function Paywall({ onUnlock }: { onUnlock: () => void }) {
-  // Track when paywall is viewed
-  useEffect(() => {
-    fetch('/api/event', { 
-      method: 'POST', 
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'paywall_view' }) 
-    })
-  }, [])
-
-  const handleUnlock = async () => {
-    // Track click before redirecting
-    await fetch('/api/event', { 
-      method: 'POST', 
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'unlock_click' }) 
-    })
-    onUnlock()
-  }
+  const [hovered, setHovered] = useState(false)
 
   return (
     <div className="relative mt-8 rounded-2xl overflow-hidden">
       <div className="blur-md opacity-30 select-none pointer-events-none p-6 space-y-3">
         <p className="text-lg text-gray-200">The hidden truth reveals a pattern you have ignored for years...</p>
         <p className="text-lg text-gray-200">Someone close to you is not who they appear to be.</p>
+        <p className="text-lg text-gray-200">Your ruling planet shifts in 14 days. This changes everything.</p>
       </div>
       
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-md">
@@ -39,12 +24,19 @@ export function Paywall({ onUnlock }: { onUnlock: () => void }) {
             <span>Limited readings remaining this hour</span>
           </div>
 
-          <button 
-            onClick={handleUnlock}
-            className="bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold py-3 px-8 rounded-xl hover:scale-105 transition-transform shadow-lg"
-          >
-            Unlock Full Reading — $4.99
-          </button>
+          <div className="flex flex-col gap-3">
+            <button 
+              onClick={onUnlock}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              className={`bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold py-3 px-8 rounded-xl transition-all ${hovered ? 'scale-105 shadow-[0_0_30px_rgba(245,158,11,0.4)]' : 'shadow-lg'}`}
+            >
+              Unlock Full Reading — $4.99
+            </button>
+            <button className="text-gray-500 text-sm hover:text-white transition-colors">
+              Unlock Deep Analysis — $7.99
+            </button>
+          </div>
         </div>
       </div>
     </div>
